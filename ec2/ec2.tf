@@ -1,14 +1,14 @@
-resource "aws_instance" "example" {
-  ami           = "ami-0c94855ba95c71c99"  # Update with your desired AMI ID
-  instance_type = "t2.micro"  # Update with your desired instance type
-
-  user_data = <<-EOF
-    #!/bin/bash
-    echo "Hello, world! This is the bootstrap script."
-    # Add any additional commands or configurations here
-  EOF
-
-  tags = {
-    Name = "terraform-example"
-  }
+provider "aws" {
+    access_key = "${var.access_key}"
+    secret_key = "${var.secret_key}"
+    region = "ap-south-1"
 }
+
+resource "aws_instance" "ec2_instance" {
+    ami = "${var.ami_id}"
+    count = "${var.number_of_instances}"
+    subnet_id = "${var.subnet_id}"
+    instance_type = "${var.instance_type}"
+    key_name = "${var.ami_key_pair_name}"
+} 
+
